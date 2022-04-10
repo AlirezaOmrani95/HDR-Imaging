@@ -272,10 +272,10 @@ Valid_HDR = os.path.join('/valid/HDR/')
 file_names_LDR = [f for f in os.listdir(LDR_Path_1) if os.path.isfile(os.path.join(LDR_Path_1,f))]
 valid_file_names_LDR = [f for f in os.listdir(Valid_LDR_1) if os.path.isfile(os.path.join(Valid_LDR_1,f))]
 
-train_bsize = 2
-valid_bsize = 2
-train_generator = DataGenerator(input_directory_1 = LDR_Path_1, output_directory = HDR_Path, batch_size = train_bsize)
-valid_generator = DataGenerator(input_directory_1 = Valid_LDR_1, output_directory = Valid_HDR, batch_size = valid_bsize)
+bsize = 2
+
+train_generator = DataGenerator(input_directory_1 = LDR_Path_1, output_directory = HDR_Path, batch_size = bsize)
+valid_generator = DataGenerator(input_directory_1 = Valid_LDR_1, output_directory = Valid_HDR, batch_size = bsize)
 
 model=create_model((512,512,3))
 
