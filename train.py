@@ -1,8 +1,3 @@
-'''
-This project is the code of my master's degree, in which I fed three low dynamic range images to the network and produced an image with more details. The network is an 
-autoencoder which has three encoders to extract features from input images and were fed to the decoder.
-'''
-
 
 import tensorflow as tf
 from tensorflow import keras
@@ -268,11 +263,11 @@ def create_model(input_shape):
 
 #_______________________training___________________
 
-LDR_Path_1 = os.path.join('/media/aro/New Volume/dataset/Train/LDR/r1/')
-HDR_Path = os.path.join('/media/aro/New Volume/dataset/Train/HDR/')
+LDR_Path_1 = os.path.join('/Train/LDR/r1/')
+HDR_Path = os.path.join('/Train/HDR/')
 
-Valid_LDR_1 = os.path.join('/content/drive/My Drive/Deep/fusion dataset/valid/LDR/r1/')
-Valid_HDR = os.path.join('/content/drive/My Drive/Deep/fusion dataset/valid/HDR/')
+Valid_LDR_1 = os.path.join('/valid/LDR/r1/')
+Valid_HDR = os.path.join('/valid/HDR/')
 
 file_names_LDR = [f for f in os.listdir(LDR_Path_1) if os.path.isfile(os.path.join(LDR_Path_1,f))]
 valid_file_names_LDR = [f for f in os.listdir(Valid_LDR_1) if os.path.isfile(os.path.join(Valid_LDR_1,f))]
@@ -284,13 +279,11 @@ valid_generator = DataGenerator(input_directory_1 = Valid_LDR_1, output_director
 
 model=create_model((512,512,3))
 
-save = ModelCheckpoint('/media/aro/New Volume/dataset/weights.hdf5', save_weights_only=True)
+save = ModelCheckpoint('weights.hdf5', save_weights_only=True)
 
-if os.path.exists('/media/aro/New Volume/dataset/weights.hdf5'):
-  model.load_weights('/media/aro/New Volume/dataset/weights.hdf5')
 
 model.compile(optimizer='adam', loss=keras.losses.mean_absolute_error)
 
-history = model.fit_generator(train_generator, steps_per_epoch= len(file_names_LDR)//train_bsize,epochs=2,verbose=1,callbacks=[save]
-                              ,validation_data= valid_generator, 
-                              validation_steps= len(valid_file_names_LDR)//valid_bsize)
+history = model.fit_generator(train_generator, steps_per_epoch = len(file_names_LDR)//train_bsize, epochs=2, verbose=1, callbacks=[save]
+                              , validation_data = valid_generator, 
+                              validation_steps = len(valid_file_names_LDR)//valid_bsize)
